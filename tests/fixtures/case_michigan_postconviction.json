@@ -1,0 +1,32 @@
+{
+  "fixture_version": 1,
+  "synthetic": true,
+  "source_inspiration": "Sanitized from a real multi-county Michigan criminal/post-conviction workflow. Names, exact case numbers, dates, device identifiers, and identifying details are omitted or altered.",
+  "case": {
+    "case_name": "Michigan Post-Conviction Validation Matter",
+    "jurisdiction_code": "MI",
+    "proceeding_type": "CRIMINAL",
+    "procedural_posture": "POST_CONVICTION",
+    "court_name": "Synthetic Michigan Circuit Court",
+    "case_number": "TEST-MI-0001"
+  },
+  "assertions": [
+    {"type":"DOCUMENTED_RECORD","text":"A certified downstream prosecutor packet contains records that reference an earlier county matter."},
+    {"type":"PROSECUTION_ASSERTION","text":"An investigative narrative attributes incriminating knowledge to the accused."},
+    {"type":"DEFENSE_ASSERTION","text":"The accused disputes the attributed statement and contests whether the narrative accurately reflects the interview."},
+    {"type":"DOCUMENTED_RECORD","text":"Telecommunications records contain activity during a period that overlaps reported interview activity."},
+    {"type":"DISPUTED","text":"The parties dispute possession, control, and access to the relevant digital device during the critical time window."}
+  ],
+  "evidence": [
+    {"label":"Police narrative","category":"REPORT","expected_analysis":["extract attributed statements","identify author","separate observation from hearsay","flag timeline conflicts"]},
+    {"label":"Carrier activity record","category":"DIGITAL_RECORD","expected_analysis":["extract timestamps","compare against interview chronology","do not treat subscriber activity as dispositive proof of possession"]},
+    {"label":"Search-warrant materials","category":"WARRANT","expected_analysis":["compare affidavit versions","identify material assertions","flag inconsistencies for attorney review"]},
+    {"label":"Plea transcript","category":"TRANSCRIPT","expected_analysis":["extract factual basis","extract defense assent or objection","identify plea type","flag preservation or waiver questions"]},
+    {"label":"Later certified prosecutor packet","category":"CERTIFIED_RECORD","expected_analysis":["identify alternative-access evidence","identify prior-record references","separate certified contents from conclusions"]}
+  ],
+  "acceptance_expectations": {
+    "must_separate":["DOCUMENTED_RECORD","PROSECUTION_ASSERTION","DEFENSE_ASSERTION","DISPUTED","INFERENCE","MISSING_EVIDENCE","GOVERNING_LAW"],
+    "must_generate":["chronology","evidence_conflict_matrix","discovery_gap_list","authority_research_queue","attorney_review_questions"],
+    "must_not_do":["treat police narrative as automatically true","treat defense narrative as automatically true","present unverified authority as filing-ready","publish identifying source material"]
+  }
+}

@@ -1,4 +1,39 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}Finessa{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"></head><body>
-<header class="topbar"><a class="brand" href="/">Finessa</a><span class="subbrand">powered by Justice Gateway</span><nav><a href="/assistant">Ask Finessa</a><a href="/research">Research</a><a href="/cases">Cases</a><a href="/pricing">Pricing</a><a href="/terms">Terms</a></nav></header>
-<main class="container">{% with msgs=get_flashed_messages(with_categories=true) %}{% for c,m in msgs %}<div class="flash {{c}}">{{m}}</div>{% endfor %}{% endwith %}{% block content %}{% endblock %}</main>
-<footer><p>Finessa is legal technology, not a lawyer or law firm. Legal information and self-help tools only. Verify current law and filing requirements.</p></footer>{% block scripts %}{% endblock %}</body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07101d">
+  <title>{% block title %}Finessa{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">F</span>
+      <span><strong>Finessa</strong><small>Justice Gateway</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/assistant">Finessa</a>
+      <a href="/cases">My Case</a>
+      <a href="/research">Research</a>
+      <a href="/verification">Verification</a>
+      <a href="/jurisdictions">Jurisdictions</a>
+      <a href="/pricing">Pricing</a>
+    </nav>
+  </header>
+  <main>
+    {% with msgs=get_flashed_messages(with_categories=true) %}
+      {% for c,m in msgs %}<div class="flash {{c}}">{{m}}</div>{% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <p><strong>Finessa · Justice Gateway</strong> — legal research, case organization, and self-help workflow technology. Finessa is not a lawyer or law firm and does not establish an attorney-client relationship. Verify current law, court rules, facts, and filing requirements with authoritative sources and qualified counsel where appropriate.</p>
+    <p><a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · <a href="/legal-disclaimer">Legal information disclosure</a></p>
+  </footer>
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

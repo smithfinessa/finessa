@@ -1,4 +1,42 @@
-{% extends 'base.html' %}{% block title %}Finessa — Legal Research & Case Intelligence{% endblock %}{% block content %}
-<section class="hero"><h1>Finessa</h1><p>Jurisdiction-aware legal research, case organization, evidence mapping, and self-help document support.</p><p><a class="button" href="/assistant">Ask Finessa</a> <a class="button secondary" href="/cases/new">Create a case workspace</a></p></section>
-<div class="grid"><section class="card"><h2>Verified legal research</h2><p>{{ authority_count }} locally indexed authority record(s). Nationwide REST research is federated through external legal-data providers and is clearly marked until verified.</p></section><section class="card"><h2>Case intelligence</h2><p>{{ case_count }} private case workspace(s). Map evidence to elements, track discovery, organize issues, and prepare drafts for review.</p></section><section class="card"><h2>Compliance by design</h2><p>Finessa distinguishes legal information from individualized attorney advice and keeps unverified research out of filing-ready citations.</p></section></div>
+{% extends 'base.html' %}
+{% block title %}Finessa — Legal Research & Case Intelligence{% endblock %}
+{% block content %}
+<section class="home-hero">
+  <div class="hero-copy">
+    <span class="eyebrow">FINESSA · JUSTICE GATEWAY</span>
+    <h1>Understand the record.<br>Research the law.<br>Prepare intelligently.</h1>
+    <p class="lead">Finessa is a legal research and case-intelligence workspace that helps you organize evidence, separate allegations from documented facts, map legal elements, identify discovery gaps, verify authorities, and prepare materials for attorney review.</p>
+    <div class="hero-actions">
+      <a class="button" href="/assistant">Ask Finessa</a>
+      <a class="button secondary" href="/cases/new">Create a case workspace</a>
+    </div>
+    <div class="trust-row">
+      <span><strong>{{ case_count }}</strong> private workspace(s)</span>
+      <span><strong>{{ authority_count }}</strong> indexed authority record(s)</span>
+      <span>Source verification before filing</span>
+      <span>Legal information · not legal representation</span>
+    </div>
+  </div>
+  <aside class="assistant-preview" aria-label="Finessa workflow preview">
+    <div class="preview-head">
+      <span class="finessa-avatar xl" aria-hidden="true">F</span>
+      <div><strong>Finessa</strong><small>Justice Gateway AI Assistant</small></div>
+      <span class="status-dot">Ready</span>
+    </div>
+    <div class="preview-message"><span class="speaker">FINESSA</span><p>I’ll keep the record divided into documented facts, allegations, disputed facts, inferences, missing evidence, and governing law.</p></div>
+    <a class="task-chip" href="/cases/new"><span>Create a private case</span><strong>→</strong></a>
+    <a class="task-chip" href="/assistant"><span>Analyze a legal issue</span><strong>→</strong></a>
+    <a class="task-chip" href="/research"><span>Research authorities</span><strong>→</strong></a>
+    <a class="task-chip" href="/verification"><span>Verify citations</span><strong>→</strong></a>
+    <a class="task-chip" href="/cases"><span>Open case workspaces</span><strong>→</strong></a>
+  </aside>
+</section>
+<section class="workspace-grid" aria-label="Finessa capabilities">
+  <a class="feature-card" href="/cases"><span class="feature-icon">01</span><h3>Case Workspace</h3><p>Charges, procedural posture, evidence, factual assertions, discovery requests, and attorney questions in one matter.</p></a>
+  <a class="feature-card" href="/research"><span class="feature-icon">02</span><h3>Authority Research</h3><p>Research statutes and cases while keeping unverified material separate from filing-ready authority.</p></a>
+  <a class="feature-card" href="/assistant"><span class="feature-icon">03</span><h3>Record Analysis</h3><p>Compare what a document actually says against what parties later claim it establishes.</p></a>
+  <a class="feature-card" href="/cases"><span class="feature-icon">04</span><h3>Evidence Mapping</h3><p>Connect evidence to legal elements and expose contradictions, alternative explanations, and proof gaps.</p></a>
+  <a class="feature-card" href="/verification"><span class="feature-icon">05</span><h3>Citation Verification</h3><p>Require current, source-linked authority before material is treated as suitable for a filing.</p></a>
+  <a class="feature-card" href="/pricing"><span class="feature-icon">06</span><h3>Attorney-Ready Output</h3><p>Move toward organized chronology, evidence matrices, legal research queues, and review-ready case reports.</p></a>
+</section>
 {% endblock %}

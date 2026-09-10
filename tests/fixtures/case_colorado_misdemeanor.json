@@ -1,0 +1,23 @@
+{
+  "fixture_version": 1,
+  "synthetic": true,
+  "source_inspiration": "Sanitized from active Colorado misdemeanor workflows. Names, exact dates, case numbers, and identifying details are omitted or altered.",
+  "case": {
+    "case_name": "Colorado Active Misdemeanor Validation Matter",
+    "jurisdiction_code": "CO",
+    "proceeding_type": "CRIMINAL",
+    "procedural_posture": "PRETRIAL",
+    "court_name": "Synthetic Colorado County Court",
+    "case_number": "TEST-CO-0001"
+  },
+  "scenarios": [
+    {"category":"PROPERTY","record_issue":"Property was allegedly taken from a shared/common setting; ownership, intent, value, and surrounding policy/practice require source verification."},
+    {"category":"DOMESTIC_RELATIONSHIP","record_issue":"Officer observation and later participant characterization differ; Finessa must preserve both sources without deciding credibility."},
+    {"category":"PROTECTION_ORDER","record_issue":"Later court modification may affect current contact terms but must not be backdated or treated as automatically resolving a prior alleged violation."}
+  ],
+  "expected_discovery": ["charging document","probable-cause statement","officer reports","body-worn video","CAD/dispatch","photographs","witness statements","property/value records","protection-order history","hearing orders"],
+  "acceptance_expectations": {
+    "must_generate":["current procedural posture","source-linked chronology","elements/evidence map","disputed-fact list","discovery gap list","court-order status summary"],
+    "must_not_do":["equate witness reluctance with mandatory dismissal","ignore prosecution burden","assume a modified order retroactively erases prior allegations","recommend prohibited contact"]
+  }
+}
