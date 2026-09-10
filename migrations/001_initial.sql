@@ -1,0 +1,2 @@
+-- Initial Finessa V1 schema is idempotently maintained in ../schema.sql.
+-- Future production migrations should be append-only and versioned here.

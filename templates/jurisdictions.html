@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>U.S. jurisdictions</h1><div class="grid">{% for j in jurisdictions %}<section class="card"><h2><a href="/jurisdiction/{{j.code}}">{{j.code}} — {{j.name}}</a></h2><p>Coverage: {{j.coverage_status}}</p></section>{% endfor %}</div>{% endblock %}

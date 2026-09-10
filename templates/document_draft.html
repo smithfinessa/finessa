@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% block title %}Draft a Document · {{case.case_name}}{% endblock %}{% block content %}
+<h2>Draft a Document — {{case.case_name}}</h2>
+<p class="notice">Every generated file is a DRAFT SCAFFOLD, not a finished filing. It pulls in facts, defense issues, and already-verified citations already on this case — it does not write legal argument and does not invent case law. Review the Pre-Filing Checklist at the end of the document before it goes near a court, ideally with an attorney.</p>
+
+{% if not doc_types %}
+<div class="card"><p>No document types in the local catalog match this case's jurisdiction ({{case.jurisdiction_code}}) and proceeding type ({{case.proceeding_type}}) yet. Add one to <code>services/document_catalog.py</code>.</p></div>
+{% endif %}
+
+{% for dt in doc_types %}
+<div class="card">
+  <h3>{{dt.title}}</h3>
+  <p><small>{{dt.rule_note}}</small></p>
+  <p><small><strong>Timing:</strong> {{dt.deadline_note}}</small></p>
+  <form method="post" action="{{url_for('document_draft_generate',case_id=case.id)}}" class="stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="doc_type" value="{{dt.key}}">
+    {% if charges %}
+    <select name="charge_id">
+      <option value="">No specific charge (general filing)</option>
+      {% for c in charges %}<option value="{{c.id}}">{{c.statute or ''}} {{c.charge_name}}</option>{% endfor %}
+    </select>
+    {% endif %}
+    <button>Generate DRAFT .docx</button>
+  </form>
+</div>
+{% endfor %}
+{% endblock %}

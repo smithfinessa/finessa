@@ -1,0 +1,50 @@
+{% extends "base.html" %}{% block title %}Elements & Proof Map · {{charge.charge_name}}{% endblock %}{% block content %}
+<h2>Elements & Proof Map — {{charge.charge_name}}</h2>
+<p>{{case.case_name}} · {{charge.statute or 'No statute entered'}}</p>
+<p class="notice">This shows what the prosecution actually has to prove, element by element, and lets you attach your own case evidence to each one. Seed law is unverified reference data — confirm current text and the operative pattern jury instruction before relying on it.</p>
+
+{% if pv.matched %}
+<div class="card">
+  <strong>Matched library entry:</strong> {{pv.library_entry.citation}} — {{pv.library_entry.short_name}}<br>
+  <small>Jury instruction: {{pv.library_entry.jury_instruction}}</small><br>
+  <small>Burden of proof: <strong>{{pv.burden}}</strong> — {{pv.burden_explainer}}</small><br>
+  <small>{{pv.library_entry.source_note}}</small>
+</div>
+{% else %}
+<div class="card"><p>No seed library match for this charge's statute text yet. Add elements manually below, or add a verified entry to <code>services/statute_library.py</code>.</p></div>
+{% endif %}
+
+<form method="post" action="{{url_for('charge_elements_sync',case_id=case.id,charge_id=charge.id)}}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button>{% if pv.elements %}Re-sync seed elements{% else %}Load seed elements from library{% endif %}</button>
+</form>
+
+<h3>Elements</h3>
+{% for el in pv.elements %}
+<div class="card">
+  <strong>ELEMENT {{el.element_number}}</strong> <span class="badge">{{el.verification_status}}</span>
+  <p>{{el.element_text}}</p>
+  <h4>Linked evidence</h4>
+  {% for l in el.linked_evidence %}
+    <p>{{l.evidence_type}} — {{l.original_filename}} <small>({{l.relationship}}{% if l.assessment %} — {{l.assessment}}{% endif %})</small></p>
+  {% else %}
+    <p><small>No evidence linked yet.</small></p>
+  {% endfor %}
+  <form method="post" action="{{url_for('charge_elements_link_evidence',case_id=case.id,charge_id=charge.id,element_id=el.id)}}" class="stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <select name="evidence_id">
+      <option value="">Choose case evidence…</option>
+      {% for e in pv.case_evidence %}<option value="{{e.id}}">{{e.evidence_type}} — {{e.original_filename}}</option>{% endfor %}
+    </select>
+    <select name="relationship"><option>RELEVANT</option><option>SUPPORTS</option><option>UNDERMINES</option><option>AMBIGUOUS</option></select>
+    <input name="assessment" placeholder="Why (short note)">
+    <button>Link evidence to this element</button>
+  </form>
+</div>
+{% else %}
+<p>No elements loaded yet for this charge.</p>
+{% endfor %}
+
+<h3>Related defense issues already on this case</h3>
+{% for d in pv.defense_issues %}<p>{{d.issue_name}} — <small>{{d.factual_basis}}</small></p>{% else %}<p><small>None yet. Add these from the <a href="{{url_for('defense_workspace',case_id=case.id)}}">Defense Intelligence</a> workspace.</small></p>{% endfor %}
+{% endblock %}

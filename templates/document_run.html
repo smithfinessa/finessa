@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>Document analysis</h1><p>Class: {{run.document_class}} · Status: {{run.status}}</p><h2>Findings</h2>{% for f in findings %}<p>{{f.finding_type}} — {{f.finding_text}}</p>{% endfor %}<h2>Record gaps</h2>{% for g in gaps %}<p>{{g.gap_type}} — {{g.gap_text}}</p>{% endfor %}{% endblock %}

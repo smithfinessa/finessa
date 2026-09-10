@@ -1,0 +1,33 @@
+{% extends "base.html" %}{% block title %}Finessa · Justice Gateway{% endblock %}{% block content %}
+<section class="assistant-page">
+  <div class="assistant-page-header">
+    <div class="finessa-identity large"><span class="finessa-avatar xl"><svg class="finessa-mark" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Finessa"><g fill="none" stroke="#07101d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="8" x2="24" y2="35"/><line x1="12" y1="15" x2="36" y2="15"/><path d="M12 15 L6 26 A6 6 0 0 0 18 26 Z"/><path d="M36 15 L30 26 A6 6 0 0 0 42 26 Z"/><line x1="16" y1="40" x2="32" y2="40"/><line x1="24" y1="35" x2="24" y2="40"/></g></svg></span><div><span class="eyebrow">JUSTICE GATEWAY ASSISTANT</span><h1>Finessa</h1><p>Your conversational gateway into legal research and case preparation.</p></div></div>
+    <div class="safety-badge">Legal information · Source verification required</div>
+  </div>
+  <div class="assistant-page-grid">
+    <section class="assistant-console">
+      <div class="orientation-card">
+        <h2>Courtroom-style orientation</h2>
+        <p>Before working on a case, Finessa separates four things: what the record actually establishes, what a person alleges, what can reasonably be inferred, and what the law may permit. That distinction is carried into research and case preparation.</p>
+        <div class="orientation-pills"><button class="assistant-prompt" data-prompt="Explain guilty, not guilty, and no contest pleas and how each can affect a criminal case">Plea choices</button><button class="assistant-prompt" data-prompt="Help me build an attorney-ready case file">Attorney-ready case file</button><button class="assistant-prompt" data-prompt="Help me identify missing discovery and records">Discovery gaps</button><button class="assistant-prompt" data-prompt="How should I verify case citations before filing?">Citation verification</button></div>
+      </div>
+      <div class="full-chat" id="assistantPageChat">
+        <article class="message assistant"><div class="bubble"><strong>I’m ready.</strong><p>State the jurisdiction and what you want to accomplish. I’ll route the problem into research, evidence, discovery, document intelligence, or the private case workspace.</p></div></article>
+      </div>
+      <form class="assistant-page-composer" id="assistantPageForm">
+        <input type="hidden" id="assistantPageCsrf" value="{{ csrf_token() }}">
+        <textarea id="assistantPageInput" maxlength="4000" rows="3" placeholder="Describe the legal issue, court process, document, or research question…"></textarea>
+        <button class="send-button" type="submit">Ask Finessa</button>
+      </form>
+    </section>
+    <aside class="assistant-rail">
+      <h3>Finessa can route you to</h3>
+      <a href="{{url_for('research')}}"><strong>Research</strong><span>Topics and authority records</span></a>
+      <a href="{{url_for('verification_workbench')}}"><strong>Verification</strong><span>Citation and filing-safety review</span></a>
+      <a href="{{url_for('cases')}}"><strong>Private Workspace</strong><span>Evidence, discovery, issues, motions</span></a>
+      <a href="{{url_for('jurisdictions')}}"><strong>Jurisdictions</strong><span>Federal, state and local context</span></a>
+      <div class="rail-note"><strong>Not a judge or lawyer</strong><p>Finessa is a fictional software assistant. She does not make court rulings, establish attorney-client relationships, or guarantee legal accuracy or outcomes.</p></div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

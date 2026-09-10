@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block content %}
+<h2>{{case.case_name}}</h2><p>{{case.jurisdiction_code}} · {{case.case_number or ''}} · {{case.procedural_posture or ''}}</p>
+<p><a class="button" href="{{url_for('defense_workspace',case_id=case.id)}}">Defense Intelligence</a>
+<a class="button" href="{{url_for('document_workspace',case_id=case.id)}}">Document Intelligence</a>
+<a class="button" href="{{url_for('document_draft_select',case_id=case.id)}}">Draft a Document</a></p>
+
+<div class="grid two">
+<section class="card"><h3>Charges</h3>{% for x in charges %}<p>{{x.statute or ''}} {{x.charge_name}} — <a href="{{url_for('charge_elements_view',case_id=case.id,charge_id=x.id)}}">Elements & Proof Map</a></p>{% endfor %}
+<form method="post" action="{{url_for('add_charge',case_id=case.id)}}" class="stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="statute" placeholder="Statute"><input name="charge_name" placeholder="Charge" required><button>Add charge</button></form></section>
+
+<section class="card"><h3>Evidence</h3>{% for e in evidence %}<p>{{e.evidence_type}} — {{e.original_filename}}<br><small>SHA-256 {{e.sha256}}</small></p>{% endfor %}
+<form method="post" enctype="multipart/form-data" action="{{url_for('upload_evidence',case_id=case.id)}}" class="stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<select name="evidence_type"><option>POLICE_REPORT</option><option>SEARCH_WARRANT</option><option>WARRANT_AFFIDAVIT</option><option>TRANSCRIPT</option><option>DIGITAL_FORENSICS</option><option>COMMUNICATION</option><option>PHOTO</option><option>AUDIO</option><option>VIDEO</option><option>OTHER</option></select>
+<input type="file" name="file" required><input name="source_description" placeholder="Source/custodian note"><button>Upload evidence</button></form></section>
+
+<section class="card"><h3>Factual assertions</h3>{% for x in assertions %}<p><span class="badge">{{x.verification_status}}</span> {{x.assertion_text}}</p>{% endfor %}
+<form method="post" action="{{url_for('add_assertion',case_id=case.id)}}" class="stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><textarea name="assertion_text" required></textarea><button>Add assertion</button></form></section>
+
+<section class="card"><h3>Attorney questions</h3>{% for x in questions %}<p>{{x.question_text}}</p>{% endfor %}
+<form method="post" action="{{url_for('add_question',case_id=case.id)}}" class="stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><textarea name="question_text" required></textarea><button>Add question</button></form></section>
+
+<section class="card"><h3>Discovery tracker</h3>{% for x in discovery %}<p>{{x.item_name}} — {{x.status}}</p>{% endfor %}
+<form method="post" action="{{url_for('add_discovery',case_id=case.id)}}" class="stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="item_name" placeholder="Requested record" required><button>Add discovery item</button></form></section>
+</div>{% endblock %}
