@@ -1,0 +1,13 @@
+.git
+.github
+.venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.env
+instance
+storage/cases
+*.db
+*.db-shm
+*.db-wal
+.DS_Store

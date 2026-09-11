@@ -19,16 +19,18 @@ from services.compliance_gateway import assess as compliance_assess
 BASE_DIR=Path(__file__).resolve().parent
 STORAGE=BASE_DIR/"storage"
 
+# Import configuration only after config.py has loaded the repository .env file.
+from config import ACCESS_PASSWORD, DATABASE_PATH, HTTPS, SECRET_KEY
+
 app=Flask(__name__)
-app.config["SECRET_KEY"]=os.environ.get("FINESSA_SECRET") or os.environ.get("JUSTICE_GATEWAY_SECRET") or secrets.token_hex(32)
+app.config["SECRET_KEY"]=SECRET_KEY or secrets.token_hex(32)
 app.config["SESSION_COOKIE_HTTPONLY"]=True
 app.config["SESSION_COOKIE_SAMESITE"]="Lax"
-app.config["SESSION_COOKIE_SECURE"]=(os.environ.get("FINESSA_HTTPS") or os.environ.get("JUSTICE_GATEWAY_HTTPS","0"))=="1"
+app.config["SESSION_COOKIE_SECURE"]=HTTPS
 app.config["MAX_CONTENT_LENGTH"]=100*1024*1024
 app.teardown_appcontext(close_db)
 
 # Idempotent bootstrap so WSGI/Gunicorn deployments do not depend on running app.py as __main__.
-from config import DATABASE_PATH
 if not DATABASE_PATH.exists():
     init_db()
     seed()
@@ -42,7 +44,7 @@ PRIVATE_ENDPOINTS = {
 }
 
 def access_password():
-    return os.environ.get("FINESSA_ACCESS_PASSWORD") or os.environ.get("JUSTICE_GATEWAY_ACCESS_PASSWORD", "")
+    return ACCESS_PASSWORD
 
 def csrf_token():
     token=session.get("csrf_token")

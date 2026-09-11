@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% block title %}Finessa · Justice Gateway{% endblock %}{% block content %}
 <section class="assistant-page">
   <div class="assistant-page-header">
-    <div class="finessa-identity large"><span class="finessa-avatar xl"><svg class="finessa-mark" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Finessa"><g fill="none" stroke="#07101d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="8" x2="24" y2="35"/><line x1="12" y1="15" x2="36" y2="15"/><path d="M12 15 L6 26 A6 6 0 0 0 18 26 Z"/><path d="M36 15 L30 26 A6 6 0 0 0 42 26 Z"/><line x1="16" y1="40" x2="32" y2="40"/><line x1="24" y1="35" x2="24" y2="40"/></g></svg></span><div><span class="eyebrow">JUSTICE GATEWAY ASSISTANT</span><h1>Finessa</h1><p>Your conversational gateway into legal research and case preparation.</p></div></div>
+    <div class="finessa-identity large"><span class="finessa-avatar xl"><img src="{{ url_for('static',filename='img/finessa-presenter.webp') }}" alt="Finessa"></span><div><span class="eyebrow">JUSTICE GATEWAY ASSISTANT</span><h1>Finessa</h1><p>Your conversational gateway into legal research and case preparation.</p></div></div>
     <div class="safety-badge">Legal information · Source verification required</div>
   </div>
   <div class="assistant-page-grid">

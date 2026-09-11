@@ -23,9 +23,12 @@ Finessa is designed as legal research, case intelligence, evidence organization,
 ## Quick start (Linux / Termux)
 
 ```bash
+git clone https://github.com/smithfinessa/finessa.git
+cd finessa
 python -m venv .venv
 . .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 cp .env.example .env
 python scripts/init_db.py
 python app.py
@@ -37,10 +40,31 @@ For Termux, install Python first:
 
 ```bash
 pkg update
-pkg install python git
+pkg install python git clang libxml2 libxslt
+git clone https://github.com/smithfinessa/finessa.git
+cd finessa
+bash scripts/termux_setup.sh
 ```
 
 Then use the commands above. Keep the default `JG_HOST=127.0.0.1` until authentication and HTTPS are correctly configured.
+
+To update an existing Termux installation after a release:
+
+```bash
+cd ~/finessa
+git pull --ff-only origin main
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+python scripts/init_db.py
+python app.py
+```
+
+Docker stores SQLite data in `/data`; mount a persistent volume and pass the environment file:
+
+```bash
+docker build -t finessa:local .
+docker run --rm -p 5000:5000 -v finessa-data:/data --env-file .env finessa:local
+```
 
 ## Environment
 

@@ -7,12 +7,43 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - uses: actions/checkout@v5
+    - uses: actions/setup-python@v6
+      with:
+        python-version: "3.13"
+        cache: pip
+    - name: Install dependencies
+      run: python -m pip install -r requirements.txt
+    - name: Initialize a clean database
+      env:
+        DATABASE_PATH: /tmp/finessa-ci.db
+      run: python scripts/init_db.py
+    - name: Run tests
+      env:
+        DATABASE_PATH: /tmp/finessa-tests.db
+        FINESSA_SECRET: ci-test-secret
+        FINESSA_ACCESS_PASSWORD: ci-test-password
+      run: python -m unittest discover -s tests -v
+    - name: Build Docker image
+      run: docker build --tag finessa:ci .
+    - name: Start and verify container
+      run: |
+        docker run --detach --name finessa-ci -p 5000:5000 \
+          -e FINESSA_SECRET=ci-test-secret \
+          -e FINESSA_ACCESS_PASSWORD=ci-test-password \
+          finessa:ci
+        for attempt in {1..20}; do
+          if curl --fail --silent http://127.0.0.1:5000/health; then exit 0; fi
+          sleep 1
+        done
+        docker logs finessa-ci
+        exit 1
+    - name: Show container logs on failure
+      if: failure()
+      run: docker logs finessa-ci || true
