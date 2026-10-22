@@ -18,13 +18,18 @@ class PrivateWorkspaceSecurityTests(unittest.TestCase):
             self.assertEqual(response.status_code, 302)
             self.assertIn("/login", response.location)
 
-    @unittest.expectedFailure
+    def test_authenticated_case_access(self):
+        with patch.object(self.module, "ACCESS_PASSWORD", "test-secret"):
+            with self.client.session_transaction() as sess:
+                sess["authenticated"] = True
+            response = self.client.get("/cases")
+            self.assertEqual(response.status_code, 200)
+
     def test_missing_csrf_token_is_rejected(self):
         with patch.object(self.module, "ACCESS_PASSWORD", "test-secret"):
             response = self.client.post("/logout")
             self.assertEqual(response.status_code, 400)
 
-    @unittest.expectedFailure
     def test_no_password_configuration_denies_case_access(self):
         with patch.object(self.module, "ACCESS_PASSWORD", ""):
             response = self.client.get("/cases")
