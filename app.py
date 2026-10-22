@@ -62,7 +62,7 @@ def protect_private_workspace():
     if request.method == "POST" and request.endpoint != "login":
         expected=session.get("csrf_token")
         supplied=request.headers.get("X-CSRF-Token", "") if request.is_json else request.form.get("csrf_token", "")
-        if expected and not hmac.compare_digest(expected, supplied):
+        if not expected or not supplied or not hmac.compare_digest(expected, supplied):
             abort(400, "Invalid form token")
 
 @app.route("/login", methods=["GET","POST"])
