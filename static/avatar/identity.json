@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "identity_id": "finessa-original",
+  "master_image": "static/img/finessa-presenter.webp",
+  "face_locked": true,
+  "defaults": {
+    "wardrobe": "executive",
+    "hairstyle": "original",
+    "environment": "studio",
+    "specialty": "justice"
+  },
+  "allowed": {
+    "wardrobe": [
+      "executive"
+    ],
+    "hairstyle": [
+      "original"
+    ],
+    "environment": [
+      "studio"
+    ],
+    "specialty": [
+      "justice"
+    ]
+  },
+  "notice": "Digital AI assistant; not a human or licensed attorney."
+}
