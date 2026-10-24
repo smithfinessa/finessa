@@ -10,6 +10,7 @@ from seed import seed
 from services.defense_intelligence import initialize_discovery, add_defense_issue, add_motion_candidate
 from services.document_intelligence import analyze_document
 from services.finessa import respond as finessa_respond
+from services.hybrid_ai import infer as hybrid_infer, InferenceUnavailable
 from services.case_pipeline import sync_elements_from_library, link_evidence, get_pipeline_view
 from services import document_catalog
 from services.document_assembly import build_docx
@@ -108,6 +109,20 @@ def finessa_chat():
         return {"assistant":"Finessa","mode":"legal-information","answer":"I can help with lawful legal research, evidence preservation, disclosure obligations, and procedural options, but not with concealing, destroying, or fabricating evidence or deceiving a court.","notice":"Legal information only.","compliance":gate,"actions":[],"authorities":[]}
     result=finessa_respond(get_db(), message, case_id=case_id, private_ok=private_ok)
     result["compliance"]=gate
+    # Hybrid inference is opt-in, and case workspace details are never included.
+    # Preserve legacy navigation and legal-source leads as separate, unverified data.
+    if os.environ.get("FINESSA_AI_ENABLED", "").lower() in ("1", "true", "yes") and message.strip():
+        try:
+            generated=hybrid_infer(message)
+            result["answer"]=generated.answer
+            result["ai_provider"]=generated.provider
+            result["ai_model"]=generated.model
+            result["notice"]="AI-generated information; legal claims and citations require independent source verification."
+            if generated.provider == "cloud":
+                result["notice"] += " This message was processed by a configured cloud AI provider."
+        except InferenceUnavailable:
+            result["ai_provider"]="legacy_fallback"
+            result["notice"]="AI model unavailable; displaying rule-based guidance. Verify legal information independently."
     if gate["decision"]=="REFRAME":
         result["notice"]="This question calls for individualized legal judgment. Finessa can explain relevant law, consequences, and options, but the final legal decision should be reviewed with a licensed attorney in the applicable jurisdiction."
     return result
