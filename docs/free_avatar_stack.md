@@ -58,4 +58,3 @@ export FINESSA_SADTALKER_HOME=$PWD/SadTalker
 ## Notes
 
 This is a scaffold for a free architecture. Real-time motion and voice transport still depends on a browser/WebRTC client and local model availability.
-
