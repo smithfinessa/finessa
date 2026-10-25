@@ -1,37 +1,62 @@
 # Finessa
 
-Finessa is a legal-research and case-intelligence platform for jurisdiction-aware legal information, evidence organization, and self-help document workflows. It is not a law firm and is not a substitute for licensed counsel.
+Finessa is a controlled-access legal research and case-workflow prototype built to help organize legal facts, research material, evidence, document drafting, and discovery work in a single local system.
 
-Finessa is designed to help users organize case facts, track discovery, search legal information, and prepare support materials. It does not guarantee legal outcomes or claim complete nationwide authority coverage unless each jurisdiction is independently verified.
+This project is not a law firm, not a substitute for legal advice, and not a complete nationwide legal authority database. It is also not a public-facing product without additional legal review, production security hardening, and deployment validation.
 
-## Public launch posture
+## Product truth
 
-The project is a controlled-access legal-research product, not a complete legal authority database. Coverage is jurisdiction-specific and must be verified before it is treated as authoritative or used in a filing.
+Finessa is best described as:
 
-The product should be described as:
+- a legal research and case organization tool
+- a workspace for evidence, issues, charges, and discovery tracking
+- a document drafting and case-prep aid for attorneys, litigants, and researchers
+- a framework for jurisdiction-aware legal information, with explicit verification states
+- a local-first prototype that is intentionally conservative about claims and legal authority
 
-- legal research and case organization technology
-- evidence and document workflow support
-- jurisdiction-aware legal information tooling
-- not a substitute for attorney review or legal advice
-- not a complete nationwide legal authority database for every state and territory
+It is not:
 
-## V1 capabilities
+- a complete legal database for every jurisdiction
+- a substitute for attorney review or legal judgment
+- a public legal advice product that can safely operate without review and configuration controls
+- a production-ready service without operational, legal, and security validation
 
-- U.S. jurisdiction registry: federal + 50 states + DC + territories
-- Nationwide federated research through public legal-data providers
-- Local authority index with explicit verification states
-- Reference coverage model for verified jurisdictions; remaining jurisdictions remain framework-only until official-source adapters are validated
-- Criminal/civil case workspaces
-- Elements & Proof Map
-- Evidence-to-element links with integrity checks
-- Discovery and issue tracking
-- Basic document intelligence and provenance hashing
-- Draft DOCX assembly that only uses `filing_ready=1` authorities as citations
-- Finessa chat interface with a compliance gateway
-- Free / Case / Plus / Professional price entitlements
+## What is inside this repository
 
-## Quick start (Linux / Termux)
+The repository contains a Python/Flask application with a SQLite-backed local database and a number of legal workflow features, including:
+
+- jurisdiction-aware authority indexing
+- legal topic and authority search
+- case workspace management for charges, evidence, and assertions
+- discovery and defense issue tracking
+- document analysis and drafting support
+- compliance-aware assistant interactions
+- local document generation for case-ready outputs
+
+## Current status
+
+This repository is currently a controlled-access prototype and framework for review, not a fully launched public legal platform. The README and app configuration intentionally reflect a cautious release posture.
+
+Production use should only happen after:
+
+- legal/compliance review of privacy, terms, and claims
+- secure deployment configuration is in place
+- secrets are explicitly set for the target environment
+- database, storage, and authentication controls are validated
+- external data providers are reviewed for quality and licensing
+
+## Repository layout
+
+- `app.py` — Flask application entry point and routes
+- `config.py` — runtime configuration and production validation
+- `db.py` and `schema.sql` — database bootstrap and schema
+- `services/` — legal research, document, and workflow logic
+- `providers/` — official source adapter boundary and integration notes
+- `templates/` and `static/` — UI assets
+- `tests/` — application and validation tests
+- `docs/` — deployment and policy materials
+
+## Quick start
 
 ```bash
 git clone https://github.com/smithfinessa/finessa.git
@@ -45,45 +70,52 @@ python scripts/init_db.py
 python app.py
 ```
 
-Open `http://127.0.0.1:5000`.
+Then open:
 
-## Environment
+- http://127.0.0.1:5000
 
-Required for a public/private case workspace:
+## Required environment variables
 
-- `FINESSA_SECRET`
-- `FINESSA_ACCESS_PASSWORD`
+Minimum local configuration:
+
+- `FINESSA_SECRET` for signing and session security
+- `FINESSA_ACCESS_PASSWORD` for private workspace access
 - `FINESSA_HTTPS=1` when behind HTTPS
+- `DATABASE_PATH` for the local SQLite database
 
-Legal-provider keys:
+Example values are in `.env.example`.
 
-- `COURTLISTENER_API_TOKEN` (optional for some CourtListener access)
-- `LEGISCAN_API_KEY`
-- `GOVINFO_API_KEY`
+Production mode should be declared explicitly:
 
-Never commit production credentials.
+```bash
+export FINESSA_ENV=production
+export FINESSA_SECRET="<strong-random-secret>"
+export FINESSA_ACCESS_PASSWORD="<strong-password>"
+export FINESSA_HTTPS=1
+```
 
-## Coverage honesty
+The application now fails fast in production when placeholders or empty values remain in place.
 
-No single public REST API provides every current codified state statute, regulation, court rule, jury instruction, municipal ordinance, and precedential decision for every U.S. jurisdiction. Finessa therefore uses a provider/adaptor model and records coverage status for every jurisdiction.
+## Production deployment checklist
 
-A jurisdiction is only treated as reference or verified when its primary legal source and verification record have been reviewed. Framework-only jurisdictions remain marked as such and must not be represented as complete or authoritative.
+For deployment steps and hardening guidance, see:
 
-## Production blockers before public launch
+- `docs/DEPLOYMENT_CHECKLIST.md`
 
-1. Counsel review of Terms/EULA/privacy/UPL and marketing claims.
-2. Production user authentication and per-user authorization.
-3. Payment-provider integration plus webhook-backed subscription state.
-4. PostgreSQL migration for production multi-user use.
-5. Encryption/retention/audit controls for sensitive case files.
-6. Live API-key integration tests and provider license/redistribution review.
-7. Official-source adapters and verification for jurisdictions advertised as authoritative.
-8. Security review, abuse controls, backups, monitoring, and incident response.
-
-## Tests
+## Testing
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-Tests requiring Flask/python-docx need dependencies installed. `tests/test_schema.py` uses only the Python standard library.
+## Legal and coverage honesty
+
+No single public API provides a complete, current, fully verified legal authority corpus for every jurisdiction. This codebase recognizes that reality and explicitly treats authority coverage as jurisdiction-specific and verification-driven.
+
+The project is built around careful source tracking, evidence handling, and workflow structure rather than claiming universal legal completeness.
+
+## License and support
+
+This repository is provided as a prototype and operational framework. It is not a replacement for legal advice, regulatory review, or production legal technology operations.
+
+Always validate the output against current law, applicable rules, and your actual jurisdiction before relying on it for legal decisions or filings.
