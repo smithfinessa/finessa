@@ -1,0 +1,21 @@
+# Finessa / Justice Gateway
+FINESSA_ENV=development
+FINESSA_SECRET=replace-with-a-long-random-value
+FINESSA_ACCESS_PASSWORD=replace-for-private-workspace
+FINESSA_HTTPS=0
+JG_HOST=127.0.0.1
+PORT=5000
+DATABASE_PATH=instance/finessa.db
+
+# Legal data providers
+COURTLISTENER_API_TOKEN=
+LEGISCAN_API_KEY=
+GOVINFO_API_KEY=
+
+# Optional checkout URLs (Stripe Payment Links or another provider)
+FINESSA_CASE_PAYMENT_URL=
+FINESSA_PLUS_PAYMENT_URL=
+FINESSA_PRO_PAYMENT_URL=
+
+# Production note:
+# Set FINESSA_ENV=production and use strong values for FINESSA_SECRET and FINESSA_ACCESS_PASSWORD before deployment.
