@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 .env
+instance/
+storage/
 instance/*.db
 instance/*.db-*
 storage/cases/

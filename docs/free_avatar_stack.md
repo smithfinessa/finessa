@@ -36,7 +36,7 @@ FINESSA_AVATAR_MATCH_THRESHOLD=0.5
 
 ```bash
 # install Ollama
-# https:/ollama.com/download
+# https://ollama.com/download
 
 ollama pull llama3.1
 
@@ -44,7 +44,7 @@ ollama pull llama3.1
 # then export FINESSA_PIPER_MODEL or ensure piper is on PATH
 
 # clone SadTalker locally
-git clone https:/github.com/OpenTalker/SadTalker.git
+git clone https://github.com/OpenTalker/SadTalker.git
 export FINESSA_SADTALKER_HOME=$PWD/SadTalker
 ```
 
