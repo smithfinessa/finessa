@@ -16,7 +16,10 @@ def env(*names: str, default: str = "") -> str:
 
 
 def is_production() -> bool:
-    return env("FINESSA_ENV", "APP_ENV", default="development").lower() == "production"
+    """Return whether the deployment explicitly identifies itself as production."""
+    return env("FINESSA_ENV", "APP_ENV", default="development").strip().lower() in {
+        "production", "prod"
+    }
 
 
 DATABASE_PATH = Path(env("DATABASE_PATH", default="instance/finessa.db"))
