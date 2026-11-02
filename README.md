@@ -1,8 +1,10 @@
 # Finessa
 
-Finessa is a legal-research and case-intelligence platform for jurisdiction-aware legal information, evidence organization, and self-help document workflows. It is not a law firm and is not a substitute for licensed counsel.
+Finessa is a controlled-access legal-research and case-intelligence platform for jurisdiction-aware legal information, evidence organization, and self-help document workflows. It is not a law firm and is not a substitute for legal advice.
 
 Finessa is designed to help users organize case facts, track discovery, search legal information, and prepare support materials. It does not guarantee legal outcomes or claim complete nationwide authority coverage unless each jurisdiction is independently verified.
+
+The product is intended for self-represented litigants, people working with a public defender or private attorney, and legal professionals who need a structured place to organize facts, review procedural materials, and compare jurisdiction-specific legal sources before acting. It is a research and workflow aid, not a final legal determination or legal recommendation by itself.
 
 ## Public launch posture
 
@@ -15,6 +17,24 @@ The product should be described as:
 - jurisdiction-aware legal information tooling
 - not a substitute for attorney review or legal advice
 - not a complete nationwide legal authority database for every state and territory
+
+## Legal-use honesty and compliance posture
+
+Finessa may assist users with:
+
+- locating relevant jurisdictional authorities and official-source links
+- organizing case facts, evidence, discovery, and procedural checklists
+- reviewing procedural context, court structure, and filing-related workflows
+- preparing draft documents and motion outlines that require independent legal review before filing
+
+Finessa does not:
+
+- provide legal advice or legal representation
+- determine a user's legal rights, plea strategy, trial position, or outcome
+- guarantee the correctness of any jurisdiction-specific rule, deadline, or filing requirement without independent verification
+- replace the judgment of a licensed attorney, public defender, or court clerk
+
+Users remain responsible for confirming the current law, local court rules, deadlines, procedural requirements, and factual accuracy for their matter with their own counsel or official sources before taking legal action.
 
 ## V1 capabilities
 
