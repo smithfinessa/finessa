@@ -95,9 +95,9 @@ def verify_face_image(image_path: str | Path) -> dict:
     ref_embedding = _reference_embedding()
     if ref_embedding is None:
         return {
-            "ok": True,
-            "verified": True,
-            "reason": "Face detected. No reference image configured; access was granted for local testing.",
+            "ok": False,
+            "verified": False,
+            "reason": "Identity cannot be verified without a configured, readable reference image.",
             "face_count": len(faces),
         }
 
