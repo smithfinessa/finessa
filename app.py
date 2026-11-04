@@ -57,12 +57,14 @@ app.jinja_env.globals["csrf_token"] = csrf_token
 
 @app.before_request
 def protect_private_workspace():
-    if request.endpoint in PRIVATE_ENDPOINTS and access_password() and not session.get("authenticated"):
+    if (request.endpoint in PRIVATE_ENDPOINTS or request.path.startswith("/cases")) and not access_password():
+        abort(503, "Private workspace is not configured")
+    if (request.endpoint in PRIVATE_ENDPOINTS or request.path.startswith("/cases")) and not session.get("authenticated"):
         return redirect(url_for("login", next=request.full_path if request.query_string else request.path))
     if request.method == "POST" and request.endpoint != "login":
         expected=session.get("csrf_token")
         supplied=request.headers.get("X-CSRF-Token", "") if request.is_json else request.form.get("csrf_token", "")
-        if expected and not hmac.compare_digest(expected, supplied):
+        if not expected or not supplied or not hmac.compare_digest(expected, supplied):
             abort(400, "Invalid form token")
 
 @app.route("/login", methods=["GET","POST"])
@@ -76,7 +78,7 @@ def login():
             session["authenticated"]=True
             csrf_token()
             target=request.form.get("next") or url_for("cases")
-            if not target.startswith("/"):
+            if not target.startswith("/") or target.startswith("//"):
                 target=url_for("cases")
             return redirect(target)
         flash("Incorrect access password.", "error")
@@ -100,7 +102,7 @@ def finessa_chat():
         case_id=int(raw_case) if raw_case not in (None, "") else None
     except (TypeError, ValueError):
         case_id=None
-    private_ok=bool(session.get("authenticated")) or not access_password()
+    private_ok=bool(session.get("authenticated")) and bool(access_password())
     if case_id and not private_ok:
         case_id=None
     gate=compliance_assess(message)

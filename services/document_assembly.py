@@ -35,6 +35,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from . import document_catalog
+from .legal_release_gate import candidate_authorities
 
 DRAFT_RED = RGBColor(0xB0, 0x1E, 0x1E)
 INK = RGBColor(0x07, 0x10, 0x1D)
@@ -170,15 +171,10 @@ def _grounds_section(doc, db, case_id):
 
 def _argument_section(doc, db, jurisdiction_code, guidance):
     _notice_box(doc, guidance, color=MUTED)
-    authorities = db.execute(
-        """SELECT title, citation, court_name, decision_date, proposition_text
-           FROM legal_authorities WHERE jurisdiction_code=? AND filing_ready=1
-           ORDER BY title""",
-        (jurisdiction_code,),
-    ).fetchall() if jurisdiction_code else []
+    authorities = candidate_authorities(db, jurisdiction_code)
     if authorities:
         note_p = doc.add_paragraph()
-        note_p.add_run("Filing-ready verified authorities currently on file for this jurisdiction (confirm each is actually relevant to this specific claim before citing it):").italic = True
+        note_p.add_run("Internally verified authority candidates for this jurisdiction (independently check currency, relevance, and treatment before citing):").italic = True
         for a in authorities:
             _bullet(doc, f"{a['title']}, {a['citation']}" + (f" — {a['proposition_text']}" if a["proposition_text"] else ""))
     else:
